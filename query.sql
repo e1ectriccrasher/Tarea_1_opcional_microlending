@@ -8,7 +8,7 @@
 --Qué tanto difiere ese promedio del tiempo entre rentas por cliente?
 
 with t as(
-	select p.customer_id ,p.payment_date::timestamp - lag(p.payment_date , 1 )over (order by p.payment_date asc) as diferencia
+	select p.customer_id ,p.payment_date::timestamp - lag(p.payment_date , 1 )over (partition by p.order by p.payment_date asc) as diferencia
 	from payment p 
 	)
 	select t.customer_id ,avg(t.diferencia) as "promedio por cliente"
